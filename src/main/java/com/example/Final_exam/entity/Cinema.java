@@ -1,4 +1,5 @@
-package com.example.cinema.hub.entity;
+package com.example.Final_exam.entity;
+
 
 import jakarta.persistence.*;
 import lombok.*;
