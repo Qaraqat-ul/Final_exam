@@ -1,14 +1,13 @@
 package com.example.Final_exam.service;
 
-import com.example.Final_exam.dto.MovieRequest;
-import com.example.Final_exam.dto.MovieResponse;
+import com.example.Final_exam.dto.MovieDto;
 
 import java.util.List;
 
 public interface MovieService {
-    List<MovieResponse> getAll();
-    MovieResponse getById(Long id);
-    MovieResponse create(MovieRequest request);
-    MovieResponse update(Long id, MovieRequest request);
+    MovieDto create(MovieDto dto);
+    MovieDto getById(Long id);
+    List<MovieDto> getAll();
+    MovieDto update(Long id, MovieDto dto);
     void delete(Long id);
 }

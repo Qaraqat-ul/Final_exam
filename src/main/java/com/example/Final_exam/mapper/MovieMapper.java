@@ -1,36 +1,18 @@
 package com.example.Final_exam.mapper;
 
-import com.example.Final_exam.dto.MovieRequest;
-import com.example.Final_exam.dto.MovieResponse;
+import com.example.Final_exam.dto.MovieDto;
+import com.example.Final_exam.entity.Genre;
 import com.example.Final_exam.entity.Movie;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-import java.util.Set;
 import java.util.stream.Collectors;
 
-public class MovieMapper {
+@Mapper(componentModel = "spring", imports = {Collectors.class, Genre.class})
+public interface MovieMapper {
 
-    public static Movie toEntity(MovieRequest request, Set<Genre> genres) {
-        return Movie.builder()
-                .title(request.getTitle())
-                .releaseDate(request.getReleaseDate())
-                .description(request.getDescription())
-                .durationMinutes(request.getDurationMinutes())
-                .genres(genres)
-                .build();
-    }
-
-    public static MovieResponse toResponse(Movie movie) {
-        MovieResponse response = new MovieResponse();
-        response.setId(movie.getId());
-        response.setTitle(movie.getTitle());
-        response.setReleaseDate(movie.getReleaseDate());
-        response.setDescription(movie.getDescription());
-        response.setDurationMinutes(movie.getDurationMinutes());
-        response.setGenres(
-                movie.getGenres().stream()
-                        .map(GenreMapper::toResponse)
-                        .collect(Collectors.toSet())
-        );
-        return response;
-    }
+    @Mapping(target = "directorId", source = "director.id")
+    @Mapping(target = "genreIds",
+            expression = "java(movie.getGenres().stream().map(Genre::getId).collect(Collectors.toSet()))")
+    MovieDto toDto(Movie movie);
 }
