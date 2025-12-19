@@ -1,7 +1,6 @@
 package com.example.Final_exam.mapper;
 
 import com.example.Final_exam.dto.GenreResponse;
-import com.example.Final_exam.entity.Genre;
 
 public class GenreMapper {
 

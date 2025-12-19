@@ -2,7 +2,6 @@ package com.example.Final_exam.mapper;
 
 import com.example.Final_exam.dto.MovieRequest;
 import com.example.Final_exam.dto.MovieResponse;
-import com.example.Final_exam.entity.Genre;
 import com.example.Final_exam.entity.Movie;
 
 import java.util.Set;

@@ -1,27 +1,25 @@
-CREATE TABLE cinemas (
-    id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(150) NOT NULL,
-    address VARCHAR(250) NOT NULL,
-    city VARCHAR(100) NOT NULL
+create table directors (
+                           id bigserial primary key,
+                           full_name varchar(255) not null
 );
 
-CREATE TABLE genres (
-    id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(80) NOT NULL UNIQUE
+create table genres (
+                        id bigserial primary key,
+                        name varchar(100) not null unique
 );
 
-CREATE TABLE movies (
-    id BIGSERIAL PRIMARY KEY,
-    title VARCHAR(200) NOT NULL,
-    release_date DATE,
-    description VARCHAR(1000),
-    duration_minutes INT
+create table movies (
+                        id bigserial primary key,
+                        title varchar(255) not null,
+                        director_id bigint not null references directors(id)
 );
 
-CREATE TABLE movie_genres (
-    movie_id BIGINT NOT NULL,
-    genre_id BIGINT NOT NULL,
-    PRIMARY KEY (movie_id, genre_id),
-    FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE,
-    FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE CASCADE
+create table movie_genres (
+                              movie_id bigint not null references movies(id),
+                              genre_id bigint not null references genres(id),
+                              primary key (movie_id, genre_id)
 );
+
+
+insert into directors(full_name) values ('Christopher Nolan'), ('Denis Villeneuve');
+insert into genres(name) values ('Sci-Fi'), ('Drama'), ('Action');

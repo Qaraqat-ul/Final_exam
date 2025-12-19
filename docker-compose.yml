@@ -1,48 +1,21 @@
 version: "3.9"
-
 services:
-  database-service:
+  db:
     image: postgres:16
-    container_name: final-exam-db
     environment:
-      POSTGRES_DB: final_exam
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cinema
+      POSTGRES_USER: cinema
+      POSTGRES_PASSWORD: cinema
     ports:
-      - "2345:5432"
-    volumes:
-      - final_exam_pgdata:/var/lib/postgresql/data
+      - "5433:5432"
 
-  backend-service:
+  app:
     build: .
-    container_name: final-exam-backend
     depends_on:
-      - database-service
+      - db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://database-service:5432/final_exam
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
-      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
-      SPRING_JPA_SHOW_SQL: "true"
-      SPRING_FLYWAY_ENABLED: "true"
-      SPRING_FLYWAY_LOCATIONS: classpath:db/migration
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/cinema
+      SPRING_DATASOURCE_USERNAME: cinema
+      SPRING_DATASOURCE_PASSWORD: cinema
     ports:
-      - "3333:8080"
-
-  flyway:
-    image: flyway/flyway:10
-    container_name: flyway
-    depends_on:
-      - database-service
-    environment:
-      FLYWAY_URL: jdbc:postgresql://database-service:5432/final_exam
-      FLYWAY_USER: postgres
-      FLYWAY_PASSWORD: postgres
-      FLYWAY_LOCATIONS: classpath:db/migration
-    command: flyway migrate
-    volumes:
-      - ./src/main/resources/db/migration:/flyway/sql
-
-volumes:
-  final_exam_pgdata:
-
+      - "8080:8080"
